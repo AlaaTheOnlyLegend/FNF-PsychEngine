@@ -27,14 +27,16 @@ class MainMenuState extends MusicBeatState
 		'achievements'
 	];
 
-	// TEAM LOBBY layout: button art is ~730x130, shown small (219x39) in a
-	// column under the logo, centered on it (logo center ~x740).
+	// TEAM LOBBY layout (game space 1280x720; player screens scale uniformly,
+	// e.g. x1.067 at 1366x768): button art ~730x130 shown at scale 0.23
+	// (168x30, uniform, no squash), column centered x=635 (char at ~641),
+	// tops y=205/245/285/325 (centers 220/260/300/340, gaps ~10).
 	// Background is stretched to exactly fill the screen (no zoom crop, no bars)
 	// and the camera is fixed so edges never show.
-	var menuButtonScale:Float = 0.3;
-	var menuCenterX:Float = 740;
-	var menuStartY:Float = 200;
-	var menuSpacing:Float = 51;
+	var menuButtonScale:Float = 0.23;
+	var menuCenterX:Float = 635;
+	var menuStartY:Float = 205;
+	var menuSpacing:Float = 40;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;

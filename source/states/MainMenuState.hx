@@ -27,6 +27,12 @@ class MainMenuState extends MusicBeatState
 		'achievements'
 	];
 
+	// TEAM LOBBY layout: button art is ~730x130, shown at half size (365x65),
+	// centered column under the logo, matching the menu mockup.
+	var menuButtonScale:Float = 0.5;
+	var menuStartY:Float = 200;
+	var menuSpacing:Float = 72;
+
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
@@ -74,8 +80,7 @@ class MainMenuState extends MusicBeatState
 
 		for (num => option in optionShit)
 		{
-			var item:FlxSprite = createMenuItem(option, 0, (num * 140) + 90);
-			item.y += (4 - optionShit.length) * 70; // Offsets for when you have anything other than 4 items
+			var item:FlxSprite = createMenuItem(option, 0, menuStartY + (num * menuSpacing));
 			item.screenCenter(X);
 		}
 
@@ -118,6 +123,8 @@ class MainMenuState extends MusicBeatState
 		menuItem.animation.addByPrefix('idle', '$name idle', 24, true);
 		menuItem.animation.addByPrefix('selected', '$name selected', 24, true);
 		menuItem.animation.play('idle');
+		menuItem.updateHitbox();
+		menuItem.setGraphicSize(Std.int(menuItem.width * menuButtonScale));
 		menuItem.updateHitbox();
 
 		menuItem.antialiasing = ClientPrefs.data.antialiasing;

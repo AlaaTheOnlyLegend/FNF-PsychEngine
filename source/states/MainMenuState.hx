@@ -27,11 +27,14 @@ class MainMenuState extends MusicBeatState
 		'achievements'
 	];
 
-	// TEAM LOBBY layout: button art is ~730x130, shown at half size (365x65),
-	// centered column under the logo, matching the menu mockup.
-	var menuButtonScale:Float = 0.5;
-	var menuStartY:Float = 200;
-	var menuSpacing:Float = 72;
+	// TEAM LOBBY layout: button art is ~730x130, shown small (234x42) in a
+	// left-of-center column so the character on the right stays visible.
+	// Background is stretched to exactly fill the screen (no zoom crop, no bars)
+	// and the camera is fixed so edges never show.
+	var menuButtonScale:Float = 0.32;
+	var menuCenterX:Float = 480;
+	var menuStartY:Float = 230;
+	var menuSpacing:Float = 56;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -54,21 +57,22 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = 0.25;
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
+		var bg:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menuBG'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.scrollFactor.set(0, yScroll);
-		bg.setGraphicSize(Std.int(bg.width * 1.175));
+		bg.setGraphicSize(FlxG.width, FlxG.height);
 		bg.updateHitbox();
 		bg.screenCenter();
 		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.y = 360;
 		add(camFollow);
 
-		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		magenta = new FlxSprite(0).loadGraphic(Paths.image('menuDesat'));
 		magenta.antialiasing = ClientPrefs.data.antialiasing;
 		magenta.scrollFactor.set(0, yScroll);
-		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
+		magenta.setGraphicSize(FlxG.width, FlxG.height);
 		magenta.updateHitbox();
 		magenta.screenCenter();
 		magenta.visible = false;
@@ -81,7 +85,7 @@ class MainMenuState extends MusicBeatState
 		for (num => option in optionShit)
 		{
 			var item:FlxSprite = createMenuItem(option, 0, menuStartY + (num * menuSpacing));
-			item.screenCenter(X);
+			item.x = menuCenterX - (item.width / 2);
 		}
 
 		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
@@ -268,6 +272,7 @@ class MainMenuState extends MusicBeatState
 		var selectedItem:FlxSprite = menuItems.members[curSelected];
 		selectedItem.animation.play('selected');
 		selectedItem.centerOffsets();
-		camFollow.y = selectedItem.getGraphicMidpoint().y;
+		// Camera stays fixed (camFollow.y = 360 set in create) so the
+		// exact-fit background never reveals edges while scrolling.
 	}
 }

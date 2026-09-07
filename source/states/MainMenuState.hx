@@ -28,12 +28,13 @@ class MainMenuState extends MusicBeatState
 	];
 
 	// TEAM LOBBY layout (game space 1280x720; player screens scale uniformly,
-	// e.g. x1.067 at 1366x768): button art ~730x130 shown at scale 0.23
-	// (168x30, uniform, no squash), column centered x=635 (char at ~641),
-	// tops y=205/245/285/325 (centers 220/260/300/340, gaps ~10).
+	// e.g. x1.067 at 1366x768): button art native ~476x82, shown at scale 0.35
+	// (167x29, uniform, no squash, no CPU upscale - GPU filters native pixels),
+	// column centered x=635 (char at ~641),
+	// tops y=205/245/285/325 (gaps ~11).
 	// Background is stretched to exactly fill the screen (no zoom crop, no bars)
 	// and the camera is fixed so edges never show.
-	var menuButtonScale:Float = 0.23;
+	var menuButtonScale:Float = 0.35;
 	var menuCenterX:Float = 635;
 	var menuStartY:Float = 205;
 	var menuSpacing:Float = 40;
